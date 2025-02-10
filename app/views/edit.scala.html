@@ -1,0 +1,37 @@
+@import model._
+@(id: Long, studentForm: Form[Student])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+    @main {
+
+        <h1>Edit Student details</h1>
+
+        @form(routes.StudentController.update(id)) {
+
+            <fieldset>
+
+                @inputText(studentForm("first-name"), '_label -> "First name")
+                @inputText(studentForm("middle-name"), '_label -> "Middle name")
+                @inputText(studentForm("last-name"), '_label -> "Last name")
+                @inputText(studentForm("group"), '_label -> "Group")
+                @inputText(studentForm("avg-score"), '_label -> "Average score")
+                @CSRF.formField
+
+            </fieldset>
+
+            <div class="actions">
+                <input type="submit" value="Save this student" class="btn primary"> or
+                <a href=@routes.StudentController.list() class="btn">Cancel</a>
+            </div>
+
+        }
+
+        @form(routes.StudentController.delete(id), 'class -> "topRight") {
+            @CSRF.formField
+            <input type="submit" value="Delete this student" class="btn danger">
+        }
+
+    }

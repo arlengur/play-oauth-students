@@ -1,0 +1,34 @@
+@import model.OAuthApp
+
+@import model.Grant
+@(grantForm: Form[Grant])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@implicitFieldConstructor = @{
+    FieldConstructor(twitterBootstrapInput.f)
+}
+
+@main {
+
+    <h1>Grant access to your account: "@{grantForm.data("client-id")}" requests access to your account</h1>
+
+    @form(routes.OAuth2Controller.authorize) {
+
+        <fieldset>
+            @inputText(grantForm("login"), Symbol("_label") -> "User name")
+            @inputText(grantForm("password"), Symbol("_label") -> "Password")
+            @defining(grantForm("client-id")) { uidField =>
+                <input type="hidden" name="@uidField.name" id="@uidField.id" value="@uidField.value">
+            }
+            @CSRF.formField
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Grant access" class="btn primary"> or
+            <a href=@routes.OAuth2Controller.denied class="btn">Cancel</a>
+        </div>
+
+    }
+}

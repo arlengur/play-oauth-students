@@ -1,0 +1,31 @@
+@(booForm: Form[model.Student])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main {
+
+    <h1>Add a Student</h1>
+
+    @form(routes.StudentController.save) {
+
+        <fieldset>
+
+            @inputText(booForm("first-name"), Symbol("_label") -> "First name")
+            @inputText(booForm("middle-name"), Symbol("_label") -> "Middle name")
+            @inputText(booForm("last-name"), Symbol("_label") -> "Last name")
+            @inputText(booForm("group"), Symbol("_label") -> "Group")
+            @inputText(booForm("avg-score"), Symbol("_label") -> "Average score")
+            @CSRF.formField
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Add this student" class="btn primary"> or
+            <a href=@routes.StudentController.list() class="btn">Cancel</a>
+        </div>
+
+    }
+
+}

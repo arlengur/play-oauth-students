@@ -1,0 +1,29 @@
+# Default path will just redirect to the student list
+GET         /                           controllers.StudentController.index
+
+# Students list (look at the default values for pagination parameters)
+GET         /students                   controllers.StudentController.list(p:Int ?= 0)
+
+# Add student
+GET         /students/new               controllers.StudentController.create
+POST        /students                   controllers.StudentController.save
+
+# Edit existing student
+GET         /students/:id               controllers.StudentController.edit(id:Long)
+POST        /students/:id               controllers.StudentController.update(id:Long)
+
+# Delete a student
+POST        /students/:id/delete        controllers.StudentController.delete(id:Long)
+
+# JSON students list
+GET         /studentsjson               controllers.StudentController.getStudentsJson
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file               controllers.Assets.at(file)
+
+# Display form to grant access
+GET         /auth/authorize                  @controllers.OAuth2Controller.displayAuthorize
+
+# Handle form submit
+POST        /auth/authorize                  @controllers.OAuth2Controller.authorize
+GET         /auth/denied                     @controllers.OAuth2Controller.denied

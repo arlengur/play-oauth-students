@@ -1,0 +1,77 @@
+@import model._
+@(currentPage: Page[Student])(implicit request: MessagesRequestHeader)
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(title: String) = {
+    <th class="col header">
+        <a href="@routes.StudentController.list()">@title</a>
+    </th>
+}
+
+@main {
+
+    <h1>Students list</h1>
+
+    @request.flash.get("success").map { message =>
+        <div class="alert-message warning">
+            <strong>Done!</strong> @message
+        </div>
+    }
+
+    <div class="page-header pull-right">
+        <a class="btn success" id="add" href="@routes.StudentController.create">Add a new student</a>
+    </div>
+
+    @Option(currentPage.items).filterNot(_.isEmpty).map { students =>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @header("First name")
+                @header("Middle name")
+                @header("Last name")
+                @header("Group")
+                @header("Average score")
+            </tr>
+        </thead>
+        <tbody>
+        @students.map { student =>
+            <tr>
+                <td><a href="@routes.StudentController.edit(student.id.get)">@student.firstName</a></td>
+                <td>@student.middleName</td>
+                <td>@student.lastName</td>
+                <td>@student.groupId</td>
+                <td>@student.avgScore</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div id="pagination" class="pagination">
+        <ul>
+            @currentPage.prev.map { page =>
+            <li class="prev"><a href="@routes.StudentController.list(page)">&larr; Previous</a></li>
+            }.getOrElse {
+                <li class="prev disabled"><a>&larr; Previous</a></li>
+            }
+        <li class="current"><a>Displaying @(currentPage.offset + 1)
+            to @(currentPage.offset + students.size) of @currentPage.total</a>
+        </li>
+            @currentPage.next.map { page =>
+            <li class="next"><a href="@routes.StudentController.list(page)">Next &rarr;</a></li>
+            }.getOrElse {
+                <li class="next disabled"><a>Next &rarr;</a></li>
+            }
+        </ul>
+    </div>
+
+    }.getOrElse {
+
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+
+    }
+}
