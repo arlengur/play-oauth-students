@@ -1,5 +1,5 @@
-Запускаем приложение (http://localhost:9000)
-Нажимаем "Click here to apply this script now!" чтобы создать необходимые таблицы в БД
+Запускаем приложение `sbt run` (http://localhost:9000)
+Нажимаем `Click here to apply this script now!` чтобы создать необходимые таблицы в БД
 
 Для взаимодействия с приложением нужно сначала получить `access token` для известного клиента используя 
 clientId, для этого переходим по адресу `http://localhost:9000/auth/authorize?client_id=clientId`
